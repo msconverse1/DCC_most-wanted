@@ -32,6 +32,8 @@ function askForTraits(people){
       switch(trait){
         case "gender":
         traitType = prompt("Choice a trait to search by. Example: male,female");
+        case "height":
+        traitType = prompt("Choice a trait to search by. Example: male,female");
         break;
         case "weight":
         traitType = prompt("Choice a trait to search by. Example: male,female");
