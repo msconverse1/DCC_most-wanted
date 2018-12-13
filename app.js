@@ -33,6 +33,9 @@ function askForTraits(people){
         case "gender":
         traitType = prompt("Choice a trait to search by. Example: male,female");
         break;
+        case "weight":
+        traitType = prompt("Choice a trait to search by. Example: male,female");
+        break;
       }
       arrayByTraits = TraitsSearch(people,trait,traitType);
       displayPeople(arrayByTraits);
