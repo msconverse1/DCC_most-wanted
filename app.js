@@ -23,14 +23,16 @@ function app(people){
 // Menu function to call once you find who you are looking for
 function mainMenu(person, people){
 
-  /* Here we pass in the entire person object that we found in our search, as well as the entire original dataset of people. We need people in order to find descendants and other information that the user may want. */
+  /* Here we pass in the entire person object that we found in our search, as well as the entire original dataset of people. 
+  We need people in order to find descendants and other information that the user may want. */
 
   if(!person){
     alert("Could not find that individual.");
     return app(people); // restart
   }
 
-  var displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
+  var displayOption = prompt("Found " + person.firstName + " " + person.lastName + 
+    " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
 
   switch(displayOption){
     case "info":
@@ -38,6 +40,7 @@ function mainMenu(person, people){
     break;
     case "family":
     // TODO: get person's family
+
     break;
     case "descendants":
     // TODO: get person's descendants
@@ -54,17 +57,28 @@ function mainMenu(person, people){
 
 function searchByName(people){
   var firstName = promptFor("What is the person's first name?", chars);
-  var lastName = promptFor("What is the person's last name?", chars);
-
-  var foundPerson = people.filter(function(person){
-    if(person.firstName === firstName && person.lastName === lastName){
-      return true;
-    }
+    if (isNaN(firstName)) {
+      var lastName = promptFor("What is the person's last name?", chars);
+        if (isNaN(lastName)) {
+          var foundPerson = people.filter(function(person){
+                 // TODO: find the person using the name they entered
+            if(person.firstName === firstName && person.lastName === lastName){
+              return true;
+            }
+            else{
+              console.log("There is not any matching name found");
+              return false;
+            }
+          })
+        }   
+        else{
+          console.log("This is a not a string!");
+        }
+    }   
     else{
-      return false;
+      console.log("This is a not a string!");
     }
-  })
-  // TODO: find the person using the name they entered
+
   return foundPerson;
 }
 
