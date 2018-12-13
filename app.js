@@ -13,11 +13,43 @@ function app(people){
       break;
     case 'no':
       // TODO: search by traits
+     //userinput to choice a traittype
+      askForTraits(people);
       break;
       default:
     app(people); // restart app
       break;
   }
+}
+function askForTraits(people){
+    //Currently only setup to check for gender
+    //TODO : search by height,weight,occupation,eyecolor
+    // use the trait an create a switch statment for each trait and prompt a exaple trait like gender is setup
+    let trait;
+    let traitType;
+    let arrayByTraits =[];
+      trait = prompt("Choice a trait to search by. Example: gender,height,weight,occupation,eyecolor").toLowerCase();
+      switch(trait){
+        case "gender":
+        traitType = prompt("Choice a trait to search by. Example: male,female");
+        break;
+      }
+      arrayByTraits = TraitsSearch(people,trait,traitType);
+      displayPeople(arrayByTraits);
+}
+
+//parse the data.js by traits
+function TraitsSearch(people,trait,traitType){
+    let newArray = people.filter(function(element){
+      if (element[trait] == traitType) {
+      
+        return true;
+      }
+      else{
+        return false;
+      }
+    })
+    return newArray;
 }
 
 // Menu function to call once you find who you are looking for
@@ -62,7 +94,9 @@ function searchByName(people){
         if (isNaN(lastName)) {
           var foundPerson = people.filter(function(person){
                  // TODO: find the person using the name they entered
-            if(person.firstName === firstName && person.lastName === lastName){
+            if((person.firstName === firstName && person.lastName === lastName)||
+              person.firstName.toLowerCase()===firstName && person.lastName.toLowerCase() === lastName){
+              displayPerson(person);
               return true;
             }
             else{
@@ -94,6 +128,7 @@ function displayPerson(person){
   // height, weight, age, name, occupation, eye color.
   var personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
+  personInfo += "Gender: " + person.gender + "\n";
   // TODO: finish getting the rest of the information to display
   alert(personInfo);
 }
