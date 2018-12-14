@@ -5,7 +5,7 @@ Build all of your functions for displaying and gathering information below (GUI)
 
 // app is the function called to start the entire application
 function app(people){
-  var searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
+  var searchType = promptFor("Do you know the first and last name of the person you are looking for? Enter 'yes' or 'no'.", yesNo).toLowerCase();
   switch(searchType){
     case 'yes':
       var foundPerson = searchByName(people);
@@ -29,22 +29,22 @@ function askForTraits(people){
     let trait;
     let traitType;
     let arrayByTraits =[];
-      trait = prompt("Choice a trait to search by. Example: gender,height,weight,occupation,eyeColor");
+      trait = prompt("Choose a trait to search by: gender, height, weight, occupation, or eyeColor.");
       switch(trait){
         case "gender":
-        traitType = prompt("Choose male or female");
+        traitType = prompt("Choose male or female.");
         break;
         case "height":
-        traitType = prompt("Search by inches");
+        traitType = prompt("Enter height by inches.");
         break;
         case "weight":
-        traitType = prompt("Enter weight by pounds");
+        traitType = prompt("Enter weight by pounds.");
         break;
         case "occupation":
-        traitType = prompt("Choose from: programmer, assistant, landscaper, nurse, student, architect, doctor, politician");
+        traitType = prompt("Enter an occupation: programmer, assistant, landscaper, nurse, student, architect, doctor, or politician.");
         break;
         case "eyeColor":
-        traitType = prompt("Choose from: brown, black, hazel, blue, green");
+        traitType = prompt("Enter an eyeColor: brown, black, hazel, blue, or green.");
         break;
       }
       arrayByTraits = TraitsSearch(people,trait,traitType);
