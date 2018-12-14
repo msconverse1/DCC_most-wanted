@@ -9,7 +9,8 @@ function app(people){
   switch(searchType){
     case 'yes':
       var foundPerson = searchByName(people);
-      mainMenu(foundPerson, people);
+      // look for a fix if the data.js is changed
+      mainMenu(foundPerson[0], people);
       break;
     case 'no':
       // TODO: search by traits
@@ -28,7 +29,7 @@ function askForTraits(people){
     let trait;
     let traitType;
     let arrayByTraits =[];
-      trait = prompt("Choice a trait to search by. Example: gender,height,weight,occupation,eyecolor").toLowerCase();
+      trait = prompt("Choice a trait to search by. Example: gender,height,weight,occupation,eyeColor");
       switch(trait){
         case "gender":
         traitType = prompt("Choose male or female");
@@ -42,12 +43,14 @@ function askForTraits(people){
         case "occupation":
         traitType = prompt("Choose from: programmer, assistant, landscaper, nurse, student, architect, doctor, politician");
         break;
-        case "eyecolor":
+        case "eyeColor":
         traitType = prompt("Choose from: brown, black, hazel, blue, green");
         break;
       }
       arrayByTraits = TraitsSearch(people,trait,traitType);
       displayPeople(arrayByTraits);
+      if(arrayByTraits.length >1)
+      askForTraits(arrayByTraits);
 }
 
 //parse the data.js by traits
@@ -77,10 +80,11 @@ function mainMenu(person, people){
 
   var displayOption = prompt("Found " + person.firstName + " " + person.lastName + 
     " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
-
+  
   switch(displayOption){
     case "info":
     // TODO: get person's info
+    displayPerson(object);
     break;
     case "family":
     // TODO: get person's family
@@ -108,7 +112,7 @@ function searchByName(people){
                  // TODO: find the person using the name they entered
             if((person.firstName === firstName && person.lastName === lastName)||
               person.firstName.toLowerCase()===firstName && person.lastName.toLowerCase() === lastName){
-              displayPerson(person);
+              //displayPerson(person);
               return true;
             }
             else{
