@@ -31,12 +31,19 @@ function askForTraits(people){
       trait = prompt("Choice a trait to search by. Example: gender,height,weight,occupation,eyecolor").toLowerCase();
       switch(trait){
         case "gender":
-        traitType = prompt("Choice a trait to search by. Example: male,female");
+        traitType = prompt("Choose male or female");
+        break;
         case "height":
-        traitType = prompt("Choice a trait to search by. Example: male,female");
+        traitType = prompt("Search by inches");
         break;
         case "weight":
-        traitType = prompt("Choice a trait to search by. Example: male,female");
+        traitType = prompt("Enter weight by pounds");
+        break;
+        case "occupation":
+        traitType = prompt("Choose from: programmer, assistant, landscaper, nurse, student, architect, doctor, politician");
+        break;
+        case "eyecolor":
+        traitType = prompt("Choose from: brown, black, hazel, blue, green");
         break;
       }
       arrayByTraits = TraitsSearch(people,trait,traitType);
