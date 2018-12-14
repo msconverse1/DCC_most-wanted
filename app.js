@@ -57,7 +57,6 @@ function askForTraits(people){
 function TraitsSearch(people,trait,traitType){
     let newArray = people.filter(function(element){
       if (element[trait] == traitType) {
-      
         return true;
       }
       else{
@@ -84,11 +83,12 @@ function mainMenu(person, people){
   switch(displayOption){
     case "info":
     // TODO: get person's info
-    displayPerson(object);
+    displayPerson(person);
     break;
     case "family":
     // TODO: get person's family
-
+    displayPeople(searchByFamily(person,people));
+    
     break;
     case "descendants":
     // TODO: get person's descendants
@@ -101,6 +101,26 @@ function mainMenu(person, people){
     default:
     return mainMenu(person, people); // ask again
   }
+}
+
+function searchByFamily(person,people){
+ let parentsID;
+ let personID;
+ let familyArray = [];
+ for(let i =0;i < people.length;i++){
+  if (person.id == people[i].currentSpouse) {
+    console.log(people[i].firstName +"is the Spouse of "+ person.firstName );
+    familyArray.push(people[i])
+  }
+ if(person.id == people[i].parents[0] || person.id == people[i].parents[1] ){
+  console.log(people[i].firstName +"are the parents of "+ person.firstName);
+  familyArray.push(people[i]);
+ }
+  else{
+    
+ }
+  }
+  return familyArray;
 }
 
 function searchByName(people){
@@ -145,6 +165,11 @@ function displayPerson(person){
   var personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
   personInfo += "Gender: " + person.gender + "\n";
+  personInfo += "DOB: " + person.dob + "\n";
+  personInfo += "height: " + person.height + "\n";
+  personInfo += "weight: " + person.weight + "\n";
+  personInfo += "eyeColor: " + person.eyeColor + "\n";
+  personInfo += "occupation: " + person.occupation + "\n";
   // TODO: finish getting the rest of the information to display
   alert(personInfo);
 }
