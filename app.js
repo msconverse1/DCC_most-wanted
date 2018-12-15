@@ -92,6 +92,8 @@ function mainMenu(person, people){
     break;
     case "descendants":
     // TODO: get person's descendants
+    displayPeople(searchByGeneration(person,people));
+    //searchByGeneration(person,people);
     break;
     case "restart":
     app(people); // restart
@@ -103,22 +105,34 @@ function mainMenu(person, people){
   }
 }
 
+function searchByGeneration(person,people){
+  let descendantsArray = [];
+  let generation =0;
+  for (var i = 0; i < people.length; i++) {
+      if(person.id == people[i].parents[0] || person.id == people[i].parents[1] ){
+        console.log(people[i].firstName +" is the Children of "+ person.firstName);
+        descendantsArray.push(people[i]);
+        searchByGeneration(people[i],people);
+      }
+  }
+  return descendantsArray;
+}
+
 function searchByFamily(person,people){
- let parentsID;
- let personID;
  let familyArray = [];
  for(let i =0;i < people.length;i++){
-  if (person.id == people[i].currentSpouse) {
-    console.log(people[i].firstName +"is the Spouse of "+ person.firstName );
-    familyArray.push(people[i])
-  }
- if(person.id == people[i].parents[0] || person.id == people[i].parents[1] ){
-  console.log(people[i].firstName +"are the parents of "+ person.firstName);
-  familyArray.push(people[i]);
- }
-  else{
-    
- }
+  //check if they have a spouse
+    if (person.id == people[i].currentSpouse) {
+      console.log(people[i].firstName +" is the Spouse of "+ person.firstName );
+     familyArray.push(people[i])
+    }
+  // check if they have children
+    if(person.id == people[i].parents[0] || person.id == people[i].parents[1] ){
+     console.log(people[i].firstName +" is the Children of "+ person.firstName);
+      familyArray.push(people[i]);
+    }
+    else{
+    }
   }
   return familyArray;
 }
