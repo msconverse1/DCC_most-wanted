@@ -22,39 +22,38 @@ function app(people){
       break;
   }
 }
+//Ask user for # of traits to look for then return the result 
 function askForTraits(people,age){
-    //Currently only setup to check for gender
-    //TODO : search by height,weight,occupation,eyecolor
-    // use the trait an create a switch statment for each trait and prompt a example trait like gender is setup
     let trait;
     let traitType;
     let arrayByTraits =[];
     let numTraits = prompt("how many traits do you want to search for(1-6): ");
     if (isNaN(numTraits)) {
-      numTraits = prompt("how many traits do you want to search for(1-6): ");
+      alert("Invaild Input");
+      askForTraits(people);
     }
     if(numTraits > 6){
+      alerts("set to max value");
       numTraits =6;
     }
-    else if(numTraits <1)
-      {numTraits =1;}
+    else if(numTraits <1){
+      alerts("set to min value");
+        numTraits =1;}
 for(let i =0;i<numTraits;i++){
     if(i>=1){
-      alert("Searching for trait: ");
+      alert("Searching for the next trait:");
     arrayByTraits= resurTraitSearch(arrayByTraits);
-
     }
   //call function to repeat while i < numTraits
   else{
-    alert("Searching for trait: ");
+    alert("Searching for trait:");
     arrayByTraits= resurTraitSearch(people);
   }
-  
 }
-      // recursion
+      // display final array that hold matching value to user input
     displayPeople(arrayByTraits);
 }
-
+//recursion set up for checking for multi traits to find 
 function resurTraitSearch(people)
 {
    let trait = prompt("Choose a trait to search by: gender, height, weight, occupation, eyeColor, age.");
@@ -75,7 +74,7 @@ function resurTraitSearch(people)
     //display names
      return arrayByTraits;
 }
-
+// return a trait that was inputed by the user
 function checkForTraitEntered(trait)
 {
   let traitType;
@@ -123,57 +122,62 @@ function checkForTraitEntered(trait)
         traitType =  checkForTraitEntered(trait);
         }
         break;
+        default: 
+         alert("No vaild input");
       }
       return traitType;
 }
-
+//create a array for all people with matching input of age
 function  Age(people,age){
-  let toDay = new Date();
-  let currentDay = toDay.getDate();
-  let currentMonth = toDay.getMonth();
-  let currentYear = toDay.getFullYear();
-
+  let currentTime = getcurrenttime();
   let arrayOfBirthdays = people.filter(function(el){
-    let birthDayArray = el.dob.split("/");
-    let birthYear = currentYear - age;
-      if(birthDayArray[2] == birthYear){
-        if(birthDayArray[0] >= currentMonth){
-          if(birthDayArray[1] > currentDay){
-          return false;
-          }
-        return true;
+  let birthDayArray = el.dob.split("/");
+  let birthYear = currentTime[2] - age;
+    if(birthDayArray[2] == birthYear){
+      if(birthDayArray[0] >= currentTime[0]){
+        if(birthDayArray[1] > currentTime[1]){
+        return false;
         }
       return true;
       }
-      else{
-        if(birthDayArray[2] == birthYear - 1){
-          if(birthDayArray[0] >= currentMonth){
-            if(birthDayArray[1] > currentDay){
-            return true;
-            }
+    return true;
+    }
+    else{
+      if(birthDayArray[2] == birthYear - 1){
+        if(birthDayArray[0] >= currentTime[0]){
+          if(birthDayArray[1] > currentTime[1]){
+          return true;
           }
         }
-      } 
-    });
+      }
+    } 
+  });
   return arrayOfBirthdays;
 }
+//calculate the age for a single person to display
 function calculateIndivAge(person){
-  let toDay = new Date();
-  let currentDay = toDay.getDate();
-  let currentMonth = toDay.getMonth();
-  let currentYear = toDay.getFullYear();
+  let currentTime = getcurrenttime();
   let birthDayArray = person.dob.split("/");
-  let birthYearAge = currentYear - birthDayArray[2];
-  let birthYear = currentYear - birthYearAge;
+  let birthYearAge = currentTime[2] - birthDayArray[2];
+  let birthYear = currentTime[2] - birthYearAge;
   if(birthDayArray[2] == birthYear){
-        if(birthDayArray[0] >= currentMonth){
-          if(birthDayArray[1] > currentDay){
+        if(birthDayArray[0] >= currentTime[0]){
+          if(birthDayArray[1] > currentTime[1]){
           return birthYearAge-1;
           }
         return birthYearAge;
         }
       return birthYearAge;
       }
+}
+//get current time from local machine
+function getcurrenttime(){
+  let toDay = new Date();
+  let currentDate = [];
+  currentDate.push(toDay.getMonth()+1);
+  currentDate.push(toDay.getDate());
+  currentDate.push(toDay.getFullYear());
+  return currentDate;
 }
 //parse the data.js by traits
 function TraitsSearch(people,trait,traitType){
@@ -184,24 +188,19 @@ function TraitsSearch(people,trait,traitType){
       else{
         return false;
       }
-    })
+    });
     return newArray;
 }
-
 // Menu function to call once you find who you are looking for
 function mainMenu(person, people){
-
   /* Here we pass in the entire person object that we found in our search, as well as the entire original dataset of people. 
   We need people in order to find descendants and other information that the user may want. */
-
   if(!person){
     alert("Could not find that individual.");
     return app(people); // restart
   }
-
   var displayOption = prompt("Found " + person.firstName + " " + person.lastName + 
     " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
-  
   switch(displayOption){
     case "info":
     // TODO: get person's info
@@ -210,7 +209,6 @@ function mainMenu(person, people){
     case "family":
     // TODO: get person's family
     displayPeople(searchByFamily(person,people));
-    
     break;
     case "descendants":
     // TODO: get person's descendants
@@ -226,7 +224,7 @@ function mainMenu(person, people){
     return mainMenu(person, people); // ask again
   }
 }
-
+//search through the array for all the generations 
 function searchByGeneration(person,people){
   let descendantsArray = [];
   for (var i = 0; i < people.length; i++) {
@@ -238,7 +236,7 @@ function searchByGeneration(person,people){
   }
   return descendantsArray;
 }
-
+//search for the imediate family mebers to user input
 function searchByFamily(person,people){
  let familyArray = [];
  for(let i =0;i < people.length;i++){
@@ -252,12 +250,10 @@ function searchByFamily(person,people){
      console.log(people[i].firstName +" is the Child of "+ person.firstName);
       familyArray.push(people[i]);
     }
-    else{
-    }
   }
   return familyArray;
 }
-
+// search for a person based off of user input
 function searchByName(people){
   var firstName = promptFor("What is the person's first name?", chars);
     if (isNaN(firstName)) {
@@ -271,10 +267,9 @@ function searchByName(people){
               return true;
             }
             else{
-              console.log("There is not any matching name found");
               return false;
             }
-          })
+          });
         }   
         else{
           console.log("This is a not a string!");
@@ -283,17 +278,15 @@ function searchByName(people){
     else{
       console.log("This is a not a string!");
     }
-
   return foundPerson;
 }
-
 // alerts a list of people
 function displayPeople(people){
   alert(people.map(function(person){
     return person.firstName + " " + person.lastName;
   }).join("\n"));
 }
-
+//display all infomation about a single person
 function displayPerson(person){
   // print all of the information about a person:
   // height, weight, age, name, occupation, eye color.
@@ -309,7 +302,6 @@ function displayPerson(person){
   // TODO: finish getting the rest of the information to display
   alert(personInfo);
 }
-
 // function that prompts and validates user input
 function promptFor(question, valid){
   do{
@@ -317,12 +309,10 @@ function promptFor(question, valid){
   } while(!response || !valid(response));
   return response;
 }
-
 // helper function to pass into promptFor to validate yes/no answers
 function yesNo(input){
   return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
 }
-
 // helper function to pass in as default promptFor validation
 function chars(input){
   return true; // default validation only
