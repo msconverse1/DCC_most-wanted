@@ -139,7 +139,7 @@ function  Age(people,age){
     });
   return arrayOfBirthdays;
 }
-function calculateIndivAga(person){
+function calculateIndivAge(person){
   let toDay = new Date();
   let currentDay = toDay.getDate();
   let currentMonth = toDay.getMonth();
@@ -150,7 +150,7 @@ function calculateIndivAga(person){
   if(birthDayArray[2] == birthYear){
         if(birthDayArray[0] >= currentMonth){
           if(birthDayArray[1] > currentDay){
-          return birthYearAge-1;;
+          return birthYearAge-1;
           }
         return birthYearAge;
         }
@@ -283,7 +283,7 @@ function displayPerson(person){
   personInfo += "Last Name: " + person.lastName + "\n";
   personInfo += "Gender: " + person.gender + "\n";
   personInfo += "DOB: " + person.dob + "\n";
-  personInfo += "Age: " + calculateIndivAga(person) + "\n";
+  personInfo += "Age: " + calculateIndivAge(person) + "\n";
   personInfo += "height: " + person.height + "\n";
   personInfo += "weight: " + person.weight + "\n";
   personInfo += "eyeColor: " + person.eyeColor + "\n";
