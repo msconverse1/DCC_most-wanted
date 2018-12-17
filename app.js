@@ -29,9 +29,13 @@ function askForTraits(people,age){
     let trait;
     let traitType;
     let arrayByTraits =[];
-    let numTraits = prompt("how many traits do you want to search for(1-5): ");
-    if(numTraits > 5){numTraits =5;}
-      trait = prompt("Choose a trait to search by: gender, height, weight, occupation, or eyeColor.");
+    let numTraits = prompt("how many traits do you want to search for(1-6): ");
+    if(numTraits > 6){
+      numTraits =6;
+    }
+    else if(numTraits <1)
+      {numTraits =1;}
+      trait = prompt("Choose a trait to search by: gender, height, weight, occupation, eyeColor, age.");
       switch(trait){
         case "gender":
         traitType = prompt("Choose male or female.");
@@ -50,19 +54,22 @@ function askForTraits(people,age){
         break;
         case "age":
         traitType = prompt("Enter a person's age.");
-       
         break;
       }
-      if (trait == "age"){
+    if (trait == "age"){
        arrayByTraits = Age(people,traitType);
-      }
-        else{
+    }
+    else if (trait == "gender"|| trait == "height"|| trait == "weight"|| trait == "occupation"|| trait == "eyeColor"){
       arrayByTraits = TraitsSearch(people,trait,traitType);
-      }
+    }
+    else{ 
+      alert("please enter one of the six choices given. ");
+      askForTraits(people,age);
+    }
       displayPeople(arrayByTraits);
-      if(numTraits >1){
+    if(numTraits >1){
       askForTraits(arrayByTraits);
-      }
+    }
 }
 function  Age(people,age){
   let toDay = new Date();
@@ -93,6 +100,24 @@ function  Age(people,age){
       } 
     });
   return arrayOfBirthdays;
+}
+function calculateIndivAga(person){
+  let toDay = new Date();
+  let currentDay = toDay.getDate();
+  let currentMonth = toDay.getMonth();
+  let currentYear = toDay.getFullYear();
+  let birthDayArray = person.dob.split("/");
+  let birthYearAge = currentYear - birthDayArray[2];
+  let birthYear = currentYear - birthYearAge;
+  if(birthDayArray[2] == birthYear){
+        if(birthDayArray[0] >= currentMonth){
+          if(birthDayArray[1] > currentDay){
+          return birthYearAge-1;;
+          }
+        return birthYearAge;
+        }
+      return birthYearAge;
+      }
 }
 //parse the data.js by traits
 function TraitsSearch(people,trait,traitType){
@@ -148,10 +173,9 @@ function mainMenu(person, people){
 
 function searchByGeneration(person,people){
   let descendantsArray = [];
-  let generation =0;
   for (var i = 0; i < people.length; i++) {
       if(person.id == people[i].parents[0] || person.id == people[i].parents[1] ){
-        console.log(people[i].firstName +" is the Children of "+ person.firstName);
+        console.log(people[i].firstName +" is the Child of "+ person.firstName);
         descendantsArray.push(people[i]);
         searchByGeneration(people[i],people);
       }
@@ -169,7 +193,7 @@ function searchByFamily(person,people){
     }
   // check if they have children
     if(person.id == people[i].parents[0] || person.id == people[i].parents[1] ){
-     console.log(people[i].firstName +" is the Children of "+ person.firstName);
+     console.log(people[i].firstName +" is the Child of "+ person.firstName);
       familyArray.push(people[i]);
     }
     else{
@@ -221,6 +245,7 @@ function displayPerson(person){
   personInfo += "Last Name: " + person.lastName + "\n";
   personInfo += "Gender: " + person.gender + "\n";
   personInfo += "DOB: " + person.dob + "\n";
+  personInfo += "Age: " + calculateIndivAga(person) + "\n";
   personInfo += "height: " + person.height + "\n";
   personInfo += "weight: " + person.weight + "\n";
   personInfo += "eyeColor: " + person.eyeColor + "\n";
