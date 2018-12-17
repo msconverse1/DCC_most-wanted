@@ -22,13 +22,15 @@ function app(people){
       break;
   }
 }
-function askForTraits(people){
+function askForTraits(people,age){
     //Currently only setup to check for gender
     //TODO : search by height,weight,occupation,eyecolor
-    // use the trait an create a switch statment for each trait and prompt a exaple trait like gender is setup
+    // use the trait an create a switch statment for each trait and prompt a example trait like gender is setup
     let trait;
     let traitType;
     let arrayByTraits =[];
+    let numTraits = prompt("how many traits do you want to search for(1-5): ");
+    if(numTraits > 5){numTraits =5;}
       trait = prompt("Choose a trait to search by: gender, height, weight, occupation, or eyeColor.");
       switch(trait){
         case "gender":
@@ -46,13 +48,52 @@ function askForTraits(people){
         case "eyeColor":
         traitType = prompt("Enter an eyeColor: brown, black, hazel, blue, or green.");
         break;
+        case "age":
+        traitType = prompt("Enter a person's age.");
+       
+        break;
       }
+      if (trait == "age"){
+       arrayByTraits = Age(people,traitType);
+      }
+        else{
       arrayByTraits = TraitsSearch(people,trait,traitType);
+      }
       displayPeople(arrayByTraits);
-      if(arrayByTraits.length >1)
+      if(numTraits >1){
       askForTraits(arrayByTraits);
+      }
 }
+function  Age(people,age){
+  let toDay = new Date();
+  let currentDay = toDay.getDate();
+  let currentMonth = toDay.getMonth();
+  let currentYear = toDay.getFullYear();
 
+  let arrayOfBirthdays = people.filter(function(el){
+    let birthDayArray = el.dob.split("/");
+    let birthYear = currentYear - age;
+      if(birthDayArray[2] == birthYear){
+        if(birthDayArray[0] >= currentMonth){
+          if(birthDayArray[1] > currentDay){
+          return false;
+          }
+        return true;
+        }
+      return true;
+      }
+      else{
+        if(birthDayArray[2] == birthYear - 1){
+          if(birthDayArray[0] >= currentMonth){
+            if(birthDayArray[1] > currentDay){
+            return true;
+            }
+          }
+        }
+      } 
+    });
+  return arrayOfBirthdays;
+}
 //parse the data.js by traits
 function TraitsSearch(people,trait,traitType){
     let newArray = people.filter(function(element){
