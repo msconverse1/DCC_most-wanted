@@ -30,47 +30,85 @@ function askForTraits(people,age){
     let traitType;
     let arrayByTraits =[];
     let numTraits = prompt("how many traits do you want to search for(1-6): ");
+    if (isNaN(numTraits)) {
+      numTraits = prompt("how many traits do you want to search for(1-6): ");
+    }
     if(numTraits > 6){
       numTraits =6;
     }
     else if(numTraits <1)
       {numTraits =1;}
       trait = prompt("Choose a trait to search by: gender, height, weight, occupation, eyeColor, age.");
-      switch(trait){
-        case "gender":
-        traitType = prompt("Choose male or female.");
-        break;
-        case "height":
-        traitType = prompt("Enter height by inches.");
-        break;
-        case "weight":
-        traitType = prompt("Enter weight by pounds.");
-        break;
-        case "occupation":
-        traitType = prompt("Enter an occupation: programmer, assistant, landscaper, nurse, student, architect, doctor, or politician.");
-        break;
-        case "eyeColor":
-        traitType = prompt("Enter an eyeColor: brown, black, hazel, blue, or green.");
-        break;
-        case "age":
-        traitType = prompt("Enter a person's age.");
-        break;
-      }
+      traitType = checkForTraitEntered(traitType,trait);
+      //logic to call which function we want 
     if (trait == "age"){
        arrayByTraits = Age(people,traitType);
     }
     else if (trait == "gender"|| trait == "height"|| trait == "weight"|| trait == "occupation"|| trait == "eyeColor"){
       arrayByTraits = TraitsSearch(people,trait,traitType);
     }
+    //if incorrect info is entered call func again
     else{ 
       alert("please enter one of the six choices given. ");
       askForTraits(people,age);
     }
+    //display names
       displayPeople(arrayByTraits);
+      // recursion
     if(numTraits >1){
       askForTraits(arrayByTraits);
     }
 }
+function checkForTraitEntered(traitType,trait)
+{
+      switch(trait){
+        case "gender":
+        traitType = prompt("Choose male or female.");
+        if((traitType != "male" && traitType != "female") || !isNaN(traitType)){
+          alert("invaild input");
+          traitType =checkForTraitEntered(traitType,trait)
+        }
+        break;
+        case "height":
+        traitType = prompt("Enter height by inches(60-80).");
+        if (isNaN(traitType)|| traitType < 60 || traitType > 80) {
+          alert("invaild input");
+          traitType =checkForTraitEntered(traitType,trait)
+        }
+        break;
+        case "weight":
+        traitType = prompt("Enter weight by pounds.");
+        if (isNaN(traitType)) {
+          alert("invaild input");
+          traitType =checkForTraitEntered(traitType,trait)
+        }
+        break;
+        case "occupation":
+        traitType = prompt("Enter an occupation: programmer, assistant, landscaper, nurse, student, architect, doctor, or politician.");
+        if (traitType != "programmer"&& traitType != "assistant" && traitType != "landscaper"&& traitType != "nurse" && traitType != "student" 
+        &&  traitType != "doctor" && traitType != "politician" ) {
+           alert("invaild input");
+         traitType =checkForTraitEntered(traitType,trait)
+        }
+        break;
+        case "eyeColor":
+        traitType = prompt("Enter an eyeColor: brown, black, hazel, blue, or green.");
+        if (traitType != "brown" && traitType != "black"&& traitType != "hazel" && traitType != "blue"&& traitType !="green") {
+          alert("invaild input");
+         traitType = checkForTraitEntered(traitType,trait)
+        }
+        break;
+        case "age":
+        traitType = prompt("Enter a person's age.");
+        if (isNaN(traitType)) {
+          alert("invaild input");
+        traitType =  checkForTraitEntered(traitType,trait)
+        }
+        break;
+      }
+      return traitType;
+}
+
 function  Age(people,age){
   let toDay = new Date();
   let currentDay = toDay.getDate();
